@@ -10,6 +10,7 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
 
  * [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
  * Always use `declare(strict_types=1);`
+ * Remove unused `use` imports
  
 ### Composer.json
 
@@ -26,6 +27,7 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  * Wrap ID values in value objects with private constructor and static initialiser (e.g. `fromString`), and implement `__toString` etc.
  * Use [beberlei/assert](https://github.com/beberlei/assert) to assert incoming arguments. Use VOs to avoid repeated validation.
  * Avoid mixed return types (`@return ObjectA|ObjectB`)
+
 
 ### Unit tests
 
