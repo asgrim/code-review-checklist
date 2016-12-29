@@ -27,7 +27,7 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  * Wrap ID values in value objects with private constructor and static initialiser (e.g. `fromString`), and implement `__toString` etc.
  * Use [beberlei/assert](https://github.com/beberlei/assert) to assert incoming arguments. Use VOs to avoid repeated validation.
  * Avoid mixed return types (`@return ObjectA|ObjectB`)
-
+ * Don't declare variables unnecessarily (i.e. not need to declare a variable if it's only used once)
 
 ### Unit tests
 
