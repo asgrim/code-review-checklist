@@ -1,37 +1,62 @@
-## Welcome to GitHub Pages
+## Asgrim's Code Review Checklist
 
-You can use the [editor on GitHub](https://github.com/asgrim/code-review-checklist/edit/master/index.md) to maintain and preview the content for your website in Markdown files.
+### IDE tools
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+ * Use [Php Inspections (EA Extended)](https://plugins.jetbrains.com/idea/plugin/7622-php-inspections-ea-extended-)
 
-### Markdown
+### Code Style
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/FriendsOfPHP/PHP-CS-Fixer) and [phpcs](https://github.com/squizlabs/PHP_CodeSniffer).
 
-```markdown
-Syntax highlighted code block
+ * [PSR-2](https://github.com/php-fig/fig-standards/blob/master/accepted/PSR-2-coding-style-guide.md)
+ * Always use `declare(strict_types=1);`
+ 
+### Composer.json
 
-# Header 1
-## Header 2
-### Header 3
+ * `composer require roave/security-advisories dev-master`
+ * Lock down PHP versions propery, e.g. `^7.0.0||^7.1.0` or `7.0.*||7.1.*` - php is NOT [semver](http://semver.org/)
+ * Avoid `git`/`vcs`/etc. repo types (they're slow when using `composer update`), use [Private Packagist](https://packagist.com/) instead
+ * Try to keep the "possible versions" small to resolve dependency versions quicker (e.g. if latest version of a package is `2.6.3`, use `^2.6` rather than `^2.0`)
 
-- Bulleted
-- List
+### Class/method/function structure
 
-1. Numbered
-2. List
+ * Service classes must have `interface`s
+ * Do classes use `final` [when?](http://ocramius.github.io/blog/when-to-declare-classes-final/)
+ * Type declarations for all methods (including ` : void` and nullable, e.g. ` : ?string` in PHP 7.1)
+ * Wrap ID values in value objects with private constructor and static initialiser (e.g. `fromString`), and implement `__toString` etc.
+ * Use [beberlei/assert](https://github.com/beberlei/assert) to assert incoming arguments. Use VOs to avoid repeated validation.
+ * Avoid mixed return types (`@return ObjectA|ObjectB`)
 
-**Bold** and _Italic_ and `Code` text
+### Unit tests
 
-[Link](url) and ![Image](src)
-```
+ * Full coverage included with new changes
+ * Fixture values are somewhat randomised, e.g.:
+   * `$customerFullName = uniqid('customerFullName', true);`
+   * `$uuidId = Uuid::uuid4();`
+   * `$integerId = random_int(100,999);`
+ * PHPUnit static methods should be called static:
+   * Bad: `$this->assertSame($expectation, $actual);`
+   * Good: `self::assertSame($expectation, $actual);`
+ 
+### Docblocks, comments, annotations
+ 
+ * Factories should have `@codeCoverageIgnore`
+ * Tests should have `@covers \Fully\Qualified\Class\Name` annotation at class-level
+ * Docblocks should exist where strict type declarations cannot be used, or intent must be described
+   * Note: if intent must be described, maybe refactor?
+ * Single line comments `// Should be like this` - space after `//`
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+### Behat tests
 
-### Jekyll Themes
+ * Do the scenario names make sense?
+ * Simplify and abstract away complex UI interactions (e.g. caused by overuse of JS)
+ 
+### Other tips
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/asgrim/code-review-checklist/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+ * Does the code make sense?
+ * Does the change solve the bug / conform to the given spec?
+ * Automate running of all tests when PR created/updated (Travis, Jenkins, Gitlab etc.)
+ * Automate generation of coverage - ideally report coverage back to PR
+ * If not automatable, tests must be run manually - make sure it works
+ * Prove functionality with E2E tests (e.g. Behat), at least with basic "happy path" scenarios
+ * Naming should be explicit, but succinct
