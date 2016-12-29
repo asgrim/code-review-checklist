@@ -45,6 +45,11 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  * Docblocks should exist where strict type declarations cannot be used, or intent must be described
    * Note: if intent must be described, maybe refactor?
  * Single line comments `// Should be like this` - space after `//`
+ * Documentation in `/docs` committed along with the project
+ 
+### View scripts / templates
+
+ * Is output escaped appropriately (e.g. for Zend\View, `escapeHtml`, `escapeHtmlAttr` etc.)
 
 ### Behat tests
 
@@ -60,3 +65,6 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  * If not automatable, tests must be run manually - make sure it works
  * Prove functionality with E2E tests (e.g. Behat), at least with basic "happy path" scenarios
  * Naming should be explicit, but succinct
+ * Typos, spelling, grammar
+ * Look for general architecture issues - how does this change affect other parts of the application?
+ * Too complex? Too simple?
