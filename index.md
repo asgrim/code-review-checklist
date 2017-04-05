@@ -39,6 +39,7 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  * PHPUnit static methods should be called static:
    * Bad: `$this->assertSame($expectation, $actual);`
    * Good: `self::assertSame($expectation, $actual);`
+ * Make sure that `$this->expectedException()` is near the method call that should raise the exception
  
 ### Docblocks, comments, annotations
  
