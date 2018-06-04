@@ -14,7 +14,7 @@ Note: much of this should be automated - see [PHP-CS-Fixer](https://github.com/F
  
 ### Composer.json
 
- * `composer require roave/security-advisories dev-master`
+ * `composer require --dev roave/security-advisories dev-master`
  * Lock down PHP versions propery, e.g. `~7.0.0||~7.1.0` or `7.0.*||7.1.*` - php is NOT [semver](http://semver.org/)
  * Avoid `git`/`vcs`/etc. repo types (they're slow when using `composer update`), use [Private Packagist](https://packagist.com/) instead
  * Try to keep the "possible versions" small to resolve dependency versions quicker (e.g. if latest version of a package is `2.6.3`, use `^2.6` rather than `^2.0`)
